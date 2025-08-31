@@ -1,49 +1,24 @@
-/* Dock lateral */
+/* Dock */
 .dock {
   background: #1e1e2e;
-  padding: 10px;
-  border-radius: 30px;
+  padding: 15px 5px;
+  border-radius: 0 20px 20px 0;
   align-items: center;
 }
 
+/* Ícones dentro do círculo */
 .icon {
   font-family: "Font Awesome 6 Free";
   font-weight: 900;
-  font-size: 22px;
-  padding: 14px;
+  font-size: 18px;
+  color: #cdd6f4;
+}
+
+/* Círculos */
+.circle {
+  min-width: 40px;
+  min-height: 40px;
+  color: #89b4fa;       /* cor da barrinha */
+  background: #313244;  /* cor do fundo */
   border-radius: 50%;
-  background: #313244;
-  color: #cdd6f4;
-  transition: all 0.2s;
-}
-
-.icon:hover {
-  background: #89b4fa;
-  color: #1e1e2e;
-}
-
-/* Painel lateral */
-.sidebar {
-  background: #181825;
-  padding: 20px;
-  border-radius: 15px;
-  color: #cdd6f4;
-}
-
-progress {
-  min-height: 16px;
-  border-radius: 8px;
-  background: #313244;
-}
-
-.cpu-bar progress {
-  background: linear-gradient(to right, #a6e3a1, #f9e2af, #f38ba8);
-}
-
-.ram-bar progress {
-  background: linear-gradient(to right, #89b4fa, #b4befe, #f38ba8);
-}
-
-.temp-bar progress {
-  background: linear-gradient(to right, #89dceb, #fab387, #f38ba8);
 }
