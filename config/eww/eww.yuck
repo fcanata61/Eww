@@ -1,0 +1,83 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Dock lateral esquerda com ícones redondos ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defwidget dock []
+  (box :orientation "v" :spacing 20 :class "dock"
+    ;; CPU
+    (button :onclick "eww open panelwin"
+      (label :class "icon" :text "")) ;; CPU
+
+    ;; RAM
+    (button :onclick "eww open panelwin"
+      (label :class "icon" :text "")) ;; RAM
+
+    ;; TEMP CPU
+    (button :onclick "eww open panelwin"
+      (label :class "icon" :text "")) ;; Temp CPU
+
+    ;; TEMP MOBO
+    (button :onclick "eww open panelwin"
+      (label :class "icon" :text "")) ;; Temp MB
+
+    ;; NETWORK
+    (button :onclick "eww open panelwin"
+      (label :class "icon" :text "")) ;; Net
+
+    ;; WORKSPACES
+    (button :onclick "eww open panelwin"
+      (label :class "icon" :text "")) ;; WS
+
+    ;; CLOCK
+    (button :onclick "eww open panelwin"
+      (label :class "icon" :text "")) ;; Clock
+  )
+)
+
+(defwindow dockwin
+  :monitor 0
+  :geometry (geometry :x "0" :y "0" :width "60px" :height "100%" :anchor "left center")
+  :stacking "fg"
+  :exclusive true
+  (dock))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Painel detalhado lateral    ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defwidget sidebar []
+  (box :orientation "v" :spacing 15 :class "sidebar"
+
+    (button :onclick "eww close panelwin"
+      (label :text "✖ Fechar"))
+
+    (progress :value {EWW_CPU} :max 100 :class "cpu-bar")
+    (progress :value {EWW_RAM} :max 100 :class "ram-bar")
+    (progress :value {EWW_TEMP_CPU} :max 100 :class "temp-bar")
+    (progress :value {EWW_TEMP_MOBO} :max 100 :class "temp-bar")
+
+    (label :text "↓ {EWW_NET_DOWN} ↑ {EWW_NET_UP}")
+    (label :text "Workspaces: {EWW_WS}")
+    (label :text "{EWW_CLOCK}")
+  )
+)
+
+(defwindow panelwin
+  :monitor 0
+  :geometry (geometry :x "60px" :y "0" :width "300px" :height "100%" :anchor "left center")
+  :stacking "fg"
+  :exclusive false
+  (sidebar))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Variáveis (polls de dados) ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defpoll EWW_CPU :interval "2s" "bash ~/.config/eww/scripts/cpu.sh")
+(defpoll EWW_RAM :interval "2s" "bash ~/.config/eww/scripts/ram.sh")
+(defpoll EWW_TEMP_CPU :interval "3s" "bash ~/.config/eww/scripts/temp_cpu.sh")
+(defpoll EWW_TEMP_MOBO :interval "3s" "bash ~/.config/eww/scripts/temp_mobo.sh")
+(defpoll EWW_NET_DOWN :interval "2s" "bash ~/.config/eww/scripts/net.sh down")
+(defpoll EWW_NET_UP :interval "2s" "bash ~/.config/eww/scripts/net.sh up")
+(defpoll EWW_WS :interval "2s" "bash ~/.config/eww/scripts/ws.sh")
+(defpoll EWW_CLOCK :interval "60s" "date '+%H:%M'")
