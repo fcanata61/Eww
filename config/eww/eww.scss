@@ -1,24 +1,39 @@
-/* Dock */
 .dock {
   background: #1e1e2e;
-  padding: 15px 5px;
-  border-radius: 0 20px 20px 0;
-  align-items: center;
+  border-radius: 20px;
+  padding: 20px 10px;
 }
 
-/* Ícones dentro do círculo */
 .icon {
   font-family: "Font Awesome 6 Free";
+  font-size: 20px;
   font-weight: 900;
-  font-size: 18px;
   color: #cdd6f4;
 }
 
-/* Círculos */
-.circle {
-  min-width: 40px;
-  min-height: 40px;
-  color: #89b4fa;       /* cor da barrinha */
-  background: #313244;  /* cor do fundo */
+circular-progress {
+  min-width: 50px;
+  min-height: 50px;
   border-radius: 50%;
+  color: #89b4fa;
+  background: #313244;
+  margin: 0 auto;
+}
+
+.ws {
+  margin-top: 30px;
+}
+
+.ws-active {
+  background: #89b4fa;
+  border-radius: 50%;
+  min-width: 12px;
+  min-height: 12px;
+}
+
+.ws-inactive {
+  background: #585b70;
+  border-radius: 50%;
+  min-width: 12px;
+  min-height: 12px;
 }
