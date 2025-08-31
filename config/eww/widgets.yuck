@@ -1,0 +1,38 @@
+;; Dock completa com ícones circulares
+(defwidget dock-widget []
+  (box :orientation "v" :space-evenly false :spacing 20 :class "dock"
+    (cpu-icon)
+    (mem-icon)
+    (temp-icon)
+    (net-icon)
+    (workspace-indicator)))
+
+;; CPU
+(defwidget cpu-icon []
+  (circular-progress :value {EWW_CPU["/"].cpu_usage}
+    (label :text "" :class "icon")))
+
+;; RAM
+(defwidget mem-icon []
+  (circular-progress :value {round((EWW_RAM.used_mem / EWW_RAM.total_mem) * 100)}
+    (label :text "" :class "icon")))
+
+;; Temperatura (usa script)
+(defpoll temp :interval "5s" "bash ~/.config/eww/scripts/temp.sh")
+(defwidget temp-icon []
+  (circular-progress :value {temp}
+    (label :text "" :class "icon")))
+
+;; Net (upload/download → % fictício)
+(defpoll net :interval "3s" "bash ~/.config/eww/scripts/net.sh")
+(defwidget net-icon []
+  (circular-progress :value {net}
+    (label :text "" :class "icon")))
+
+;; Workspaces dinâmicos
+(defpoll ws :interval "2s" "bash ~/.config/eww/scripts/ws.sh")
+(defwidget workspace-indicator []
+  (box :orientation "h" :spacing 8
+    :class "ws"
+    (for w in ws
+      (circle :class {if(eq w "1"), "ws-active", "ws-inactive"}))))
