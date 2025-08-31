@@ -1,66 +1,12 @@
-;; -------------------------
-;; CPU com barra circular
-;; -------------------------
-(defwidget cpu-icon []
-  (circular-progress 
-    :value {EWW_CPU["/"].cpu_usage}
-    :thickness 6
-    :class "circle"
-    (label :text "" :class "icon")))
+(include "widgets.yuck")
 
-;; -------------------------
-;; RAM com barra circular
-;; -------------------------
-(defwidget ram-icon []
-  (circular-progress 
-    :value {EWW_RAM.used_perc}
-    :thickness 6
-    :class "circle"
-    (label :text "" :class "icon")))
-
-;; -------------------------
-;; Temperatura CPU
-;; -------------------------
-(defwidget temp-icon []
-  (circular-progress 
-    :value {round(EWW_TEMPS["Package id 0"].temp / 100 * 100)}
-    :thickness 6
-    :class "circle"
-    (label :text "🌡" :class "icon")))
-
-;; -------------------------
-;; NET (download/upload simplificado)
-;; -------------------------
-(defwidget net-icon []
-  (circular-progress 
-    :value {min(100, round(EWW_NET["wlan0"].down / 1000))}
-    :thickness 6
-    :class "circle"
-    (label :text "" :class "icon")))
-
-;; -------------------------
-;; Workspaces (apenas ícone de exibição)
-;; -------------------------
-(defwidget ws-icon []
-  (circular-progress :value 100 :thickness 6 :class "circle"
-    (label :text "" :class "icon")))
-
-;; -------------------------
-;; DOCK lateral
-;; -------------------------
-(defwidget dock []
-  (box :orientation "v" :spacing 25 :halign "start" :valign "center" :class "dock"
-    (cpu-icon)
-    (ram-icon)
-    (temp-icon)
-    (net-icon)
-    (ws-icon)
-  )
-)
-
-(defwindow dockwin
+(defwindow dock
   :monitor 0
-  :geometry (geometry :x "0" :y "0" :width "60px" :height "100%" :anchor "left center")
   :stacking "fg"
-  :exclusive true
-  (dock))
+  :geometry (geometry
+    :x "0%"
+    :y "10%"
+    :width "70px"
+    :height "80%"
+    :anchor "left center")
+  (dock-widget))
