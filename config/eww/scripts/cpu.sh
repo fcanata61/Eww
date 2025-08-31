@@ -1,2 +1,2 @@
 #!/bin/bash
-grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print int(usage)}'
+mpstat 1 1 | awk '/Average/ {print 100 - $NF}'
