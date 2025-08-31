@@ -1,38 +1,45 @@
-;; Dock completa com ícones circulares
-(defwidget dock-widget []
-  (box :orientation "v" :space-evenly false :spacing 20 :class "dock"
+;; widgets.yuck
+
+;; ---------------- Dock ----------------
+(defwidget dock-bar []
+  (box :orientation "v" :space-evenly false :halign "center" :class "dock"
     (cpu-icon)
     (mem-icon)
     (temp-icon)
     (net-icon)
-    (workspace-indicator)))
+    (workspace-icons)))
 
-;; CPU
+;; ---------------- Painel ----------------
+(defwidget detailed-panel []
+  (box :orientation "v" :class "panel"
+    (label :text "Painel Detalhado" :class "title")
+    (stat :label "CPU Usage" :value {cpu_usage})
+    (stat :label "Memory Usage" :value {mem_usage})
+    (stat :label "Temperature" :value {temp_value})
+    (stat :label "Network" :value {net_usage})
+  ))
+
+(defwidget stat [label value]
+  (box :orientation "h" :space-evenly true :class "stat"
+    (label :text label)
+    (progress :value value :class "stat-bar")
+    (label :text value)))
+
+;; ---------------- Ícones ----------------
 (defwidget cpu-icon []
-  (circular-progress :value {EWW_CPU["/"].cpu_usage}
-    (label :text "" :class "icon")))
+  (circular-progress :value {cpu_usage} (label :text "" :class "icon")))
 
-;; RAM
 (defwidget mem-icon []
-  (circular-progress :value {round((EWW_RAM.used_mem / EWW_RAM.total_mem) * 100)}
-    (label :text "" :class "icon")))
+  (circular-progress :value {mem_usage} (label :text "" :class "icon")))
 
-;; Temperatura (usa script)
-(defpoll temp :interval "5s" "bash ~/.config/eww/scripts/temp.sh")
 (defwidget temp-icon []
-  (circular-progress :value {temp}
-    (label :text "" :class "icon")))
+  (circular-progress :value {temp_value} (label :text "" :class "icon")))
 
-;; Net (upload/download → % fictício)
-(defpoll net :interval "3s" "bash ~/.config/eww/scripts/net.sh")
 (defwidget net-icon []
-  (circular-progress :value {net}
-    (label :text "" :class "icon")))
+  (circular-progress :value {net_usage} (label :text "" :class "icon")))
 
-;; Workspaces dinâmicos
-(defpoll ws :interval "2s" "bash ~/.config/eww/scripts/ws.sh")
-(defwidget workspace-indicator []
-  (box :orientation "h" :spacing 8
-    :class "ws"
-    (for w in ws
-      (circle :class {if(eq w "1"), "ws-active", "ws-inactive"}))))
+;; ---------------- Workspaces ----------------
+(defwidget workspace-icons []
+  (box :orientation "h"
+    (for i in [1 2 3 4 5]
+      (label :text {workspaces[i]} :class "workspace"))))
