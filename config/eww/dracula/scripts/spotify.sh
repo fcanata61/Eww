@@ -1,16 +1,30 @@
-#!/usr/bin/env bash
-# Usando playerctl
-status=$(playerctl status)
-case $1 in
-  --toggle) playerctl play-pause ;;
-  --prev) playerctl previous ;;
-  --next) playerctl next ;;
-  --status) echo $status ;;
-  --artist) playerctl metadata xesam:artist ;;
-  --track) playerctl metadata xesam:title ;;
-  --cover)
-    url=$(playerctl metadata mpris:artUrl)
-    echo "$HOME/.cache/spotify_art.jpg"
-    wget -q -O "$HOME/.cache/spotify_art.jpg" "$url"
-    ;;
-esac
+#!/bin/bash
+# Script para integração do Spotify com Eww
+# Requer: playerctl, wget, imagemagick (para cache da capa)
+
+CACHE_DIR="$HOME/.config/eww/cache"
+COVER_FILE="$CACHE_DIR/spotify_cover.jpg"
+
+mkdir -p "$CACHE_DIR"
+
+status=$(playerctl --player=spotify status 2>/dev/null)
+if [[ "$status" == "Stopped" || -z "$status" ]]; then
+    echo "{\"status\":\"stopped\",\"title\":\"\",\"artist\":\"\",\"cover\":\"\"}"
+    exit 0
+fi
+
+title=$(playerctl --player=spotify metadata title 2>/dev/null)
+artist=$(playerctl --player=spotify metadata artist 2>/dev/null)
+cover_url=$(playerctl --player=spotify metadata mpris:artUrl 2>/dev/null)
+
+# Baixa capa em cache (se mudou)
+if [[ -n "$cover_url" ]]; then
+    wget -q -O "$COVER_FILE" "$cover_url"
+fi
+
+echo "{
+  \"status\": \"$status\",
+  \"title\": \"$title\",
+  \"artist\": \"$artist\",
+  \"cover\": \"$COVER_FILE\"
+}"
