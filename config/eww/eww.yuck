@@ -1,17 +1,75 @@
-;; eww.yuck
+;; ===============================
+;; EWW Config - Dock Lateral
+;; ===============================
 
-(include "./widgets.yuck")
+(defvar cpu "")
+(defvar mem "")
+(defvar temp_cpu "")
+(defvar temp_mobo "")
+(defvar net_up "")
+(defvar net_down "")
+(defvar workspaces [])
+(defvar spotify "")
+
+;; ===============================
+;; Widgets
+;; ===============================
+
+;; Workspaces
+(defwidget workspaces []
+  (box :orientation "v" :spacing 6
+    (for ws in workspaces
+      (label :text "${ws.name}"
+             :class (if ws.active "ws-active" "ws")))))
+
+;; Indicadores circulares
+(defwidget circle-indicator [value icon class]
+  (box :orientation "h" :halign "center" :class class
+    (label :text icon)
+    (label :text "${value}%")))
+
+(defwidget cpu-indicator []
+  (circle-indicator :value cpu :icon "" :class "cpu-ind"))
+
+(defwidget mem-indicator []
+  (circle-indicator :value mem :icon "" :class "mem-ind"))
+
+(defwidget temp-indicator []
+  (box :orientation "v" :spacing 4
+    (circle-indicator :value temp_cpu :icon "" :class "temp-ind")
+    (circle-indicator :value temp_mobo :icon "" :class "temp-ind")))
+
+(defwidget net-indicator []
+  (box :orientation "v" :spacing 4
+    (circle-indicator :value net_up :icon "" :class "net-ind")
+    (circle-indicator :value net_down :icon "" :class "net-ind")))
+
+;; Spotify
+(defwidget spotify-widget []
+  (box :orientation "h" :spacing 8 :class "spotify"
+    (image :path "${spotify.cover}" :width 40 :height 40)
+    (box :orientation "v"
+      (label :text "${spotify.title}" :class "song-title")
+      (label :text "${spotify.artist}" :class "song-artist"))
+    (button :onclick "playerctl --player=spotify previous" "⏮")
+    (button :onclick "playerctl --player=spotify play-pause" "⏯")
+    (button :onclick "playerctl --player=spotify next" "⏭")
+  ))
+
+;; ===============================
+;; Dock Principal
+;; ===============================
 
 (defwindow dock
   :monitor 0
-  :geometry (geometry :x "0" :y "0" :width "80px" :height "100%" :anchor "left center")
+  :geometry (geometry :x "20px" :y "20px" :width "120px" :anchor "left center")
   :stacking "fg"
-  :exclusive true
-  (dock-bar))
-
-(defwindow panel
-  :monitor 0
-  :geometry (geometry :x "80px" :y "0" :width "300px" :height "100%" :anchor "left center")
-  :stacking "fg"
-  :exclusive false
-  (detailed-panel))
+  :reserve (struts :side "left" :distance "140px")
+  (box :orientation "v" :class "dock" :spacing 20
+    (workspaces)
+    (cpu-indicator)
+    (mem-indicator)
+    (temp-indicator)
+    (net-indicator)
+    (spotify-widget)
+  ))
