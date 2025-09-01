@@ -1,19 +1,58 @@
-;; eww.yuck
-(include "widgets.yuck")
-(include "panels.yuck")
+;; =========================
+;;  EWW Config - Dock + Painel
+;; =========================
 
-(defwindow dock
+(defwidget dock []
+  (box :orientation "v" :class "dock" :spacing 12
+    ;; Workspaces
+    (box :orientation "v" :class "workspaces"
+      (for ws in workspaces
+        (button :onclick "xdotool set_desktop ${ws}"
+                :class {ws.current ? "ws-active" : "ws"}
+                (label :text "${ws.name}"))))
+
+    ;; CPU
+    (circular-progress :value {EWW_CPU}
+                       :thickness 6 :class "cpu-ind"
+                       (label :text ""))
+
+    ;; Memória
+    (circular-progress :value {EWW_MEM}
+                       :thickness 6 :class "mem-ind"
+                       (label :text ""))
+
+    ;; Temperatura
+    (circular-progress :value {EWW_TEMP}
+                       :thickness 6 :class "temp-ind"
+                       (label :text ""))
+
+    ;; Rede
+    (circular-progress :value {EWW_NET}
+                       :thickness 6 :class "net-ind"
+                       (label :text ""))
+
+    ;; Spotify
+    (button :onclick "playerctl play-pause"
+            :class "spotify"
+            (label :text {EWW_SONG}))
+  )
+)
+
+(defwindow main-dock
   :monitor 0
-  :geometry (geometry :x "0" :y "0" :width "70px" :height "100%" :anchor "left center")
-  :stacking "fg" :exclusive true
-  (dock-widget))
+  :geometry (geometry :x "20px" :y "100px" :width "80px" :height "800px"
+                      :anchor "left center")
+  :stacking "fg"
+  :reserve (struts :side "left" :distance "100px")
+  (dock))
 
-(defwindow panel
-  :monitor 0
-  :geometry (geometry :x "70px" :y "0" :width "280px" :height "100%" :anchor "left center")
-  :stacking "fg" :exclusive false
-  :visible {panel-open}
-  (panel-widget))
+;; ===========
+;; Váriaveis
+;; ===========
 
-;; Estado do painel
-(defvar panel-open false)
+(defpoll EWW_CPU :interval "2s" "bash ~/.config/eww/scripts/cpu.sh")
+(defpoll EWW_MEM :interval "2s" "bash ~/.config/eww/scripts/mem.sh")
+(defpoll EWW_TEMP :interval "3s" "bash ~/.config/eww/scripts/temp.sh")
+(defpoll EWW_NET :interval "2s" "bash ~/.config/eww/scripts/net.sh")
+(defpoll workspaces :interval "3s" "bash ~/.config/eww/scripts/ws.sh")
+(defpoll EWW_SONG :interval "5s" "bash ~/.config/eww/scripts/spotify.sh")
