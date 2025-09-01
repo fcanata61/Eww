@@ -1,44 +1,65 @@
+/* =========================
+   EWW Estilo - Dock
+   ========================= */
+
+* {
+  all: unset;
+  font-family: "JetBrainsMono Nerd Font", monospace;
+  font-size: 14px;
+  color: #e0e0e0;
+}
+
 /* Dock */
 .dock {
   background: #1e1e2e;
-  padding: 15px 0;
-  align-items: center;
-}
-.iconwrap {
-  border-radius: 50%;
-  background: #2a2a35;
-}
-.icon {
-  font-family: "Font Awesome 6 Free";
-  font-size: 24px;
-  color: #cdd6f4;
-}
-.icon:hover {
-  color: #89b4fa;
-}
-.ws-active, .ws-inactive {
-  font-size: 14px;
-}
-.ws-active { color: #89b4fa; }
-.ws-inactive { color: #585b70; }
-
-/* Panel */
-.panel {
-  background: #181825;
+  border-radius: 30px;
   padding: 20px;
-  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.6);
+  margin: 10px;
 }
-.title {
+
+/* Workspaces */
+.ws {
+  background: #3a3a4e;
+  color: #a0a0c0;
+  border-radius: 15px;
+  padding: 6px;
+  margin: 4px 0;
+  text-align: center;
+}
+.ws-active {
+  background: #89b4fa;
+  color: #1e1e2e;
+  border-radius: 15px;
+  padding: 6px;
+  margin: 4px 0;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Indicadores circulares */
+.cpu-ind,
+.mem-ind,
+.temp-ind,
+.net-ind {
+  margin: 12px 0;
+  min-width: 48px;
+  min-height: 48px;
+  border-radius: 50%;
+  background: #2e2e3e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 18px;
-  color: #89b4fa;
-  margin-bottom: 10px;
 }
-.cover {
-  width: 100%;
-  border-radius: 8px;
-}
-.songinfo {
-  color: #cdd6f4;
+
+/* Spotify */
+.spotify {
+  background: #1db954;
+  border-radius: 50%;
+  padding: 12px;
+  color: #ffffff;
+  font-weight: bold;
   font-size: 14px;
-  margin: 10px 0;
+  margin-top: 20px;
 }
