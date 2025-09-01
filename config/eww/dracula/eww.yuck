@@ -1,0 +1,19 @@
+;; eww.yuck
+(include "widgets.yuck")
+(include "panels.yuck")
+
+(defwindow dock
+  :monitor 0
+  :geometry (geometry :x "0" :y "0" :width "70px" :height "100%" :anchor "left center")
+  :stacking "fg" :exclusive true
+  (dock-widget))
+
+(defwindow panel
+  :monitor 0
+  :geometry (geometry :x "70px" :y "0" :width "280px" :height "100%" :anchor "left center")
+  :stacking "fg" :exclusive false
+  :visible {panel-open}
+  (panel-widget))
+
+;; Estado do painel
+(defvar panel-open false)
