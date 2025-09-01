@@ -1,7 +1,4 @@
 #!/bin/bash
-# Script para integração do Spotify com Eww
-# Requer: playerctl, wget, imagemagick (para cache da capa)
-
 CACHE_DIR="$HOME/.config/eww/cache"
 COVER_FILE="$CACHE_DIR/spotify_cover.jpg"
 
@@ -17,7 +14,6 @@ title=$(playerctl --player=spotify metadata title 2>/dev/null)
 artist=$(playerctl --player=spotify metadata artist 2>/dev/null)
 cover_url=$(playerctl --player=spotify metadata mpris:artUrl 2>/dev/null)
 
-# Baixa capa em cache (se mudou)
 if [[ -n "$cover_url" ]]; then
     wget -q -O "$COVER_FILE" "$cover_url"
 fi
