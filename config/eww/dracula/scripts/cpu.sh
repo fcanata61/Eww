@@ -1,2 +1,3 @@
 #!/bin/bash
-mpstat 1 1 | awk '/Average/ {print 100 - $NF}'
+# Retorna uso da CPU em %
+grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print int(usage)}'
