@@ -1,0 +1,18 @@
+;; widgets.yuck
+
+(defwidget dock-widget []
+  (box :orientation "v" :spacing 20 :class "dock"
+    (button :onclick "eww update panel-open={!panel-open}"
+      (circular-progress :value {cpu_usage} :class "iconwrap" (label :text "" :class "icon")))
+    (button :onclick "eww update panel-open={!panel-open}"
+      (circular-progress :value {mem_usage} :class "iconwrap" (label :text "" :class "icon")))
+    (button :onclick "eww update panel-open={!panel-open}"
+      (circular-progress :value {temp_value} :class "iconwrap" (label :text "" :class "icon")))
+    (button :onclick "eww update panel-open={!panel-open}"
+      (circular-progress :value {net_usage} :class "iconwrap" (label :text "" :class "icon")))
+    (workspace-icons)))
+
+(defwidget workspace-icons []
+  (box :orientation "v" :spacing 10 :class "ws-container"
+    (for i in workspaces
+      (label :text {if(eq i.focused, true), "", ""} :class {if(i.focused), "ws-active", "ws-inactive"}))))
