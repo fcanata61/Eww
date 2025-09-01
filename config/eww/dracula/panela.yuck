@@ -1,0 +1,15 @@
+;; panels.yuck
+
+(defwidget panel-widget []
+  (box :orientation "v" :spacing 15 :class "panel"
+    (label :text "Now Playing" :class "title")
+    (image :src {spotify_cover} :class "cover")
+    (label :text "${spotify_artist} - ${spotify_track}" :class "songinfo")
+    (box :orientation "h" :spacing 10
+      (button :onclick "bash ~/.config/eww/scripts/spotify.sh --prev" (label :text "⏮"))
+      (button :onclick "bash ~/.config/eww/scripts/spotify.sh --toggle" (label :text {spotify_status}))
+      (button :onclick "bash ~/.config/eww/scripts/spotify.sh --next" (label :text "⏭")))
+    (label :text "CPU: ${cpu_usage}%" )
+    (label :text "RAM: ${mem_usage}%" )
+    (label :text "Temp: ${temp_value}°C" )
+    (label :text "Network: ${net_usage}%" )))
